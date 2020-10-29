@@ -4,7 +4,7 @@
   <a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
   <br />
   <br />
-  <table class="table table-striped table-hover table-bordered">
+  <table class="table table-striped table-hover table-bordered sorting">
     <thread>
       <tr class="myhome table-info">
         <th>Title</th>
@@ -17,7 +17,13 @@
       <tr id="id_<%= page._id %>" class="<%= page.slug %> connected">
         <td><%= page.title %></td>
         <td><a href="/admin/pages/edit-page/<%= page._id %>">Edit</a></td>
-        <td><a href="/admin/pages/delete-page/<%= page._id %>">Delete</a></td>
+        <td>
+          <a
+            class="confirm-deletion"
+            href="/admin/pages/delete-page/<%= page._id %>"
+            >Delete</a
+          >
+        </td>
       </tr>
       <% })%>
     </tbody>
@@ -28,14 +34,14 @@
 
 <script>
   $("tbody").sortable({
-    items: "tr:not('.home')",
+    // items: "tr:not('.home')",
     placeholder: "ui-state-hightlight",
     stop: function () {
       var ids = $("tbody").sortable("serialize");
-      console.log(ids);
       var url = "/admin/pages/reorder-pages";
       $.post(url, ids);
     },
   });
 </script>
+
 <%- include('../_layouts/adminfooter'); %>

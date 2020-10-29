@@ -28,12 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.locals.errors = null;
 
 
-app.get('/', (req, res) => {
- res.render('index', {
-  title: 'Home'
- })
-})
-
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -45,19 +39,12 @@ app.use(session({
  secret: 'keyboard cat',
  resave: true,
  saveUninitialized: true,
- cookie: {
-  maxAge: 4000000
- },
+
  // cookie: { secure: true }
 }))
 
 
-// express messages middleware
-app.use(require('connect-flash')());
-app.use(function (req, res, next) {
- res.locals.messages = require('express-messages')(req, res);
- next();
-});
+
 
 
 //express validator, if get console error, install previous version: npm install express-validator@5.3.0
@@ -77,15 +64,23 @@ app.use(expressValidator({
  }
 }))
 
-
+// express messages middleware
+app.use(require('connect-flash')());
+app.use(function (req, res, next) {
+ res.locals.messages = require('express-messages')(req, res);
+ next();
+});
 
 
 
 //set routes
 const pages = require('./routes/pages');
 const adminPages = require('./routes/admin_pages');
+const adminCategories = require('./routes/admin_categories');
+app.use('/', pages);
 app.use('/admin/pages', adminPages);
-// app.use('/', pages);
+app.use('/admin/categories', adminCategories);
+
 
 
 //start a server
