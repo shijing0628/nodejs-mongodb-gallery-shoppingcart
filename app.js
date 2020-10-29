@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const config = require('./config/database')
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const expressValidator = require('express-validator')
+const expressValidator = require('express-validator');
+const fileUpload = require('express-fileupload');
+
 
 // connect to db
 mongoose.connect(config.database, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -17,16 +19,20 @@ db.once('open', function () {
 //init app
 const app = express();
 
-//view engine setup
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
 
 //public folder setup
 app.use(express.static(path.join(__dirname, 'public')));
+//view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
 
 //set global variant for errors
 app.locals.errors = null;
 
+//Express file upload middleware
+app.use(fileUpload());
 
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -77,10 +83,11 @@ app.use(function (req, res, next) {
 const pages = require('./routes/pages');
 const adminPages = require('./routes/admin_pages');
 const adminCategories = require('./routes/admin_categories');
+const adminProducts = require('./routes/admin_products');
 app.use('/', pages);
 app.use('/admin/pages', adminPages);
 app.use('/admin/categories', adminCategories);
-
+app.use('/admin/products', adminProducts);
 
 
 //start a server

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //get category model
-const Category = require('../modals/cateogry');
+const Category = require('../modals/category');
 
 // get category index from Database
 router.get('/', (req, res) => {
@@ -114,7 +114,7 @@ router.post('/edit-category/:id', (req, res) => {
 
      category.save(err => {
       if (err) return console.log(err);
-      req.flash('success', 'category edit Success!!');
+      req.flash('success', `category edit Success!!`);
       res.redirect(`/admin/categories/edit-category/${id}`);
      });
     })
@@ -129,7 +129,7 @@ router.get('/delete-category/:id', (req, res) => {
  Category.findByIdAndRemove(req.params.id, function (err) {
   if (err) return console.log(err);
 
-  req.flash('success', 'category is deleted!');
+  req.flash('success', `category deleted !`);
   res.redirect('/admin/categories/');
  })
 })
