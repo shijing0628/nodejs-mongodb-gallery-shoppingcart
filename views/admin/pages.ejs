@@ -1,0 +1,41 @@
+<%- include('../_layouts/adminheader'); %>
+<div class="container" style="height: 75vh">
+  <h2 class="page-title">Pages</h2>
+  <a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
+  <br />
+  <br />
+  <table class="table table-striped table-hover table-bordered">
+    <thread>
+      <tr class="myhome table-info">
+        <th>Title</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thread>
+    <tbody>
+      <% pages.forEach(function(page) { %>
+      <tr id="id_<%= page._id %>" class="<%= page.slug %> connected">
+        <td><%= page.title %></td>
+        <td><a href="/admin/pages/edit-page/<%= page._id %>">Edit</a></td>
+        <td><a href="/admin/pages/delete-page/<%= page._id %>">Delete</a></td>
+      </tr>
+      <% })%>
+    </tbody>
+  </table>
+</div>
+<!-- drag and move each item in pages, use full jquery lib in adminheader instead of bootstrap slim version of jquery -->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<script>
+  $("tbody").sortable({
+    items: "tr:not('.home')",
+    placeholder: "ui-state-hightlight",
+    stop: function () {
+      var ids = $("tbody").sortable("serialize");
+      console.log(ids);
+      var url = "/admin/pages/reorder-pages";
+      $.post(url, ids);
+    },
+  });
+</script>
+<%- include('../_layouts/adminfooter'); %>
