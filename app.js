@@ -67,6 +67,18 @@ app.use(expressValidator({
    msg: msg,
    value: value
   };
+ },
+ customValidators: {
+  isImage: function (value, filename) {
+   let extension = (path.extname(filename)).toLowerCase();
+   switch (extension) {
+    case '.jpg': return '.jpg';
+    case '.jpeg': return '.jpeg';
+    case '.png': return '.png';
+    case '': return '.jpg';
+    default: return false;
+   }
+  }
  }
 }))
 
@@ -91,7 +103,7 @@ app.use('/admin/products', adminProducts);
 
 
 //start a server
-var port = 3000;
+var port = process.env.PORT || 8000;
 app.listen(port, function () {
  console.log(`server start at port ${port}`);
 })

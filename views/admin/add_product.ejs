@@ -1,0 +1,81 @@
+<%- include('../_layouts/adminheader'); %>
+<div class="container" style="height: 100%">
+  <h2 class="page-title">Add a Product</h2>
+  <a href="/admin/products" class="btn btn-primary">Back to all products</a>
+  <form
+    method="POST"
+    action="/admin/products/add-product"
+    enctype="multipart/form-data"
+  >
+    <div class="form-group">
+      <label for="">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        value="<%=title %>"
+        placeholder="title..."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="">Description</label>
+      <textarea
+        name="desc"
+        placeholder="Description..."
+        class="form-control"
+        cols="30"
+        rows="10"
+      >
+      <%= desc %></textarea
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="">Price</label>
+      <input
+        type="text"
+        class="form-control"
+        name="price"
+        value="<%= price %>"
+        placeholder="price..."
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="">Category</label>
+      <select name="category" class="form-control">
+        <% categories.forEach(cat=>{ %>
+        <option value="<%= cat.slug %>"><%= cat.title %></option>
+        <%})%>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="">Image</label>
+      <input
+        type="file"
+        class="form-control"
+        name="image"
+        id="img"
+        onchange="loadImageFile(this)"
+      />
+      <img src="#" id="imgPreview" />
+    </div>
+
+    <button class="btn btn btn-success">Submit</button>
+  </form>
+</div>
+<script>
+  //使用FileReader进行文件读取 readAsDataURL read images. https://www.jianshu.com/p/5fd16155901a
+  function loadImageFile(input) {
+    if (input.files && input.files[0]) {
+      let reader = new FileReader();
+      reader.onload = function (e) {
+        $("#imgPreview").attr("src", e.target.result).width(100).height(100);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+<%- include('../_layouts/adminfooter'); %>

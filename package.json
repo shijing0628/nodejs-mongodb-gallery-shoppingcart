@@ -22,8 +22,11 @@
     "express-validator": "^5.3.1",
     "flash": "^1.1.0",
     "fs-extra": "^9.0.1",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^0.5.1",
     "mongoose": "^5.10.11",
     "resize-img": "^2.0.0"
+  },
+  "devDependencies": {
+    "ws": "3.3.2"
   }
 }

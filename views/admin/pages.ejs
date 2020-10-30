@@ -34,7 +34,7 @@
 
 <script>
   $("tbody").sortable({
-    // items: "tr:not('.home')",
+    items: "tr:not('.home')",
     placeholder: "ui-state-hightlight",
     stop: function () {
       var ids = $("tbody").sortable("serialize");
